@@ -15,7 +15,7 @@ module.exports = merge(commonConfig, {
   devServer: {
     port: isAdmin ? 3777 : 3888,
     compress: true,
-    static: "./dist",
+    static: false,
     proxy: {
       "/api": {
         target: "http://localhost:3000/blog-api/",

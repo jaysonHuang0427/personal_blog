@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 
 // 是否是生产环境
@@ -168,7 +169,11 @@ module.exports = {
   optimization: {
     // 开发环境下启用 CSS 优化
     minimize: true,
-    // 生产环境下启用 CSS 优化
-    minimizer: [new CssMinimizerPlugin()],
+    minimizer: [
+      // css压缩
+      new CssMinimizerPlugin(),
+      // js压缩
+      // new TerserPlugin(),
+    ],
   },
 };
