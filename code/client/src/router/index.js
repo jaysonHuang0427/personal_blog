@@ -19,6 +19,17 @@ export const routes = [
       },
     ],
   },
+  {
+    path: "/article",
+    component: Layout,
+    children: [
+      {
+        path: "",
+        name: "article",
+        component: () => import("@/views/article/index.vue"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

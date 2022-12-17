@@ -17,3 +17,9 @@ export function getLabelList() {
     url: "/article/labelList",
   });
 }
+
+export function getArticleByLabel(id) {
+  return request({
+    url: `/article/listByLabel/${id}`,
+  });
+}

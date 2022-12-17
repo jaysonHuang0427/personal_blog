@@ -1,0 +1,5 @@
+const directives = {
+  img: {
+    bind() {},
+  },
+};

@@ -86,6 +86,7 @@ export default Vue.extend({
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           const fd = new FormData();
+          fd.set("author_id", this.$store.state.userInfo.id);
           fd.set("author_name", this.$store.state.userInfo.name);
           fd.set("article_title", this.form.title);
           fd.set("article_subtitle", this.form.subtitle);

@@ -3,10 +3,12 @@
     <div class="info">
       <h1 class="title">{{ title }}</h1>
       <h3 class="subtitle">{{ subtitle }}</h3>
-      <button class="btn">了解更多</button>
+      <button class="btn" @click="$router.push(`/article?id=${article_id}`)">
+        了解更多
+      </button>
     </div>
     <div class="cover">
-      <!-- <img :src="require('../assets/defaultCover.jpg')" /> -->
+      <img :src="require('@/assets/defaultCover.jpg')" :data-url="imgUrl" />
     </div>
   </div>
 </template>
@@ -22,6 +24,23 @@ export default {
     subtitle: {
       type: String,
       default: "",
+    },
+    imgUrl: {
+      type: String,
+      default: "",
+    },
+    article_id: {
+      type: Number,
+      default: 1,
+    },
+  },
+  directives: {
+    img: {
+      bind: function (el, binding) {
+        if (!binding.value) {
+          el.src = require("@/assets/defaultCover.jpg");
+        }
+      },
     },
   },
 };
@@ -41,8 +60,6 @@ export default {
     margin-top: 30px;
     .title {
       margin-bottom: 20px;
-      &:hover {
-      }
     }
     .subtitle {
       margin-bottom: 40px;
@@ -67,12 +84,14 @@ export default {
     width: 300px;
     height: 300px;
     // background: linear-gradient(to bottom right, #e78746, #f66353);
-    background-image: url("@/assets/defaultCover.jpg");
+    // background-image: url("@/assets/defaultCover.jpg");
     background-size: cover;
     border-radius: 30px;
     img {
       width: 100%;
+      height: 100%;
       object-fit: cover;
+      border: 2px solid #000;
     }
   }
 }
