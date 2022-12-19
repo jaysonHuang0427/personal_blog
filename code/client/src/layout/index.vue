@@ -1,10 +1,16 @@
 <template>
   <div class="layout">
+    <Dialog
+      :dialogVisible="dialogVisible"
+      @update:dialogVisible="dialogVisible = $event"
+    ></Dialog>
     <header>
       <div class="top">
         <div class="blog_name">jayson_blog</div>
         <ul class="nav">
-          <li @click="$router.push('/home')">主页</li>
+          <li @click="$route.path === '/home' ? '' : $router.push('/home')">
+            主页
+          </li>
           <li>友链</li>
           <li>关于我</li>
         </ul>
@@ -18,7 +24,10 @@
           </div>
           <div class="name">RRRRRu</div>
           <div class="contact">
-            <span class="iconfont icon-wechat"></span>
+            <span
+              class="iconfont icon-wechat"
+              @click="dialogVisible = true"
+            ></span>
             <span class="iconfont icon-github"></span>
             <span class="el-icon-message"></span>
           </div>
@@ -40,7 +49,12 @@
         </div>
         <div class="articleHot">
           <h1>热门文章</h1>
-          <div class="item" v-for="item in articleList" :key="item.article_id">
+          <div
+            class="item"
+            v-for="item in hotList"
+            :key="item.article_title"
+            @click="toDetail(item.article_id)"
+          >
             {{ item.article_title }}
           </div>
         </div>
@@ -51,12 +65,12 @@
 
 <script>
 import { getArticleByLabel } from "@/api/article.js";
-import Avator from "@/components/Avator.vue";
 
 export default {
-  components: { Avator },
   data() {
-    return {};
+    return {
+      dialogVisible: false,
+    };
   },
   computed: {
     articleList() {
@@ -64,6 +78,9 @@ export default {
     },
     labelList() {
       return this.$store.state.labelList;
+    },
+    hotList() {
+      return this.$store.state.articleHotList;
     },
   },
   async created() {
@@ -78,6 +95,9 @@ export default {
       if (res && res.code === 200) {
         this.$store.commit("setArticleList", res.data);
       }
+    },
+    toDetail(id) {
+      this.$router.push(`/article?id=${id}`);
     },
   },
 };
@@ -181,6 +201,11 @@ export default {
         }
         .item {
           margin-bottom: 3px;
+          font-size: 20px;
+          cursor: pointer;
+          &:hover {
+            color: #05814e;
+          }
         }
       }
     }

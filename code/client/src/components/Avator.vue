@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  name: "Avator",
   data() {
     return {
       imageUrl: "sss",

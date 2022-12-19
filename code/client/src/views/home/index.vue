@@ -17,10 +17,7 @@
 </template>
 
 <script>
-import ArticleItem from "@/components/ArticleItem.vue";
-
 export default {
-  components: { ArticleItem },
   data() {
     return {
       imgs: [],
@@ -36,8 +33,9 @@ export default {
       .querySelector(".articleList")
       .getElementsByTagName("img");
     // console.log("imgs", this.imgs);
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       this.scrollEvent();
+      clearTimeout(timer);
     }, 300);
     window.onscroll = this.scrollEvent;
   },

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { login } from "@/api/index.js";
-import { getArticleList, getLabelList } from "@/api/article.js";
+import { getArticleList, getLabelList, getHotList } from "@/api/article.js";
 
 Vue.use(Vuex);
 
@@ -10,6 +10,7 @@ const store = new Vuex.Store({
     accessToken: localStorage.getItem("accessToken") || "",
     articleList: [],
     labelList: [],
+    articleHotList: [],
   },
   mutations: {
     setToken(state, token) {
@@ -21,6 +22,9 @@ const store = new Vuex.Store({
     },
     setLabelList(state, labelList) {
       state.labelList = labelList;
+    },
+    setArticleHotList(state, list) {
+      state.articleHotList = list;
     },
   },
   actions: {
@@ -36,8 +40,10 @@ const store = new Vuex.Store({
     async getList({ commit }) {
       const res = await getArticleList();
       const res2 = await getLabelList();
+      const res3 = await getHotList();
       if (res && res.code === 200) commit("setArticleList", res.data);
       if (res2 && res2.code === 200) commit("setLabelList", res2.data);
+      if (res3 && res3.code === 200) commit("setArticleHotList", res3.data);
       console.log("getList");
     },
   },

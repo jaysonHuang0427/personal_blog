@@ -23,3 +23,9 @@ export function getArticleByLabel(id) {
     url: `/article/listByLabel/${id}`,
   });
 }
+
+export function getHotList() {
+  return request({
+    url: "/article/hotList",
+  });
+}
