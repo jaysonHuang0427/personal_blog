@@ -8,11 +8,13 @@ module.exports = merge(commonConfig, {
   mode: "production",
   // 出口
   output: {
-    // 将 js 文件输出到 js/ 目录中
-    filename: "js/bundle.js",
-    path: path.resolve(__dirname, "..", "dist"),
+    // 入口js文件打包输出命名方式
+    filename: "static/js/[name].js",
+    // 动态导入输出资源命名方式
+    chunkFilename: "static/js/[name].chunk.js",
     // 只适用于webpack5中asset资源的输出位置
-    // assetModuleFilename: "images/[hash:8][ext]",
+    assetModuleFilename: "static/media/[name].[hash:8][ext]",
+    path: path.resolve(__dirname, "..", "dist"),
     clean: true,
   },
 });

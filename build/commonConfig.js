@@ -6,6 +6,11 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 
+// nodejs核心模块，直接使用
+const os = require("os");
+// cpu核数
+const threads = os.cpus().length;
+
 // 是否是生产环境
 const isProd = process.env.NODE_ENV === "production";
 // 是否是管理端
@@ -67,7 +72,22 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: "babel-loader",
+        use: [
+          // {
+          //   loader: "thread-loader", // 开启多进程
+          //   options: {
+          //     workers: threads, // 数量
+          //   },
+          // },
+          {
+            loader: "babel-loader",
+            options: {
+              cacheDirectory: true, // 开启babel编译缓存
+              cacheCompression: false, // 缓存文件不要压缩
+              plugins: ["@babel/plugin-transform-runtime"], // 减少代码体积
+            },
+          },
+        ],
         include: isAdmin
           ? resolve("code/admin/src")
           : resolve("code/client/src"),
@@ -76,9 +96,9 @@ module.exports = {
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         type: "asset/resource",
-        generator: {
-          filename: "static/[hash:8][ext]",
-        },
+        // generator: {
+        //   filename: "static/[hash:8][ext]",
+        // },
       },
       // 处理图片资源，(webpack4之前用url-loader和file-loader)
       {
@@ -89,9 +109,9 @@ module.exports = {
             maxSize: 10 * 1024, // 10kb  优点：减少请求数量,缺点：体积变得更大
           },
         },
-        generator: {
-          filename: "static/[hash:8][ext]",
-        },
+        // generator: {
+        //   filename: "static/[hash:8][ext]",
+        // },
       },
       // {
       //   test: /\.(png|jpe?g|gif|svg|ico)(\?.*)?$/,
@@ -131,14 +151,17 @@ module.exports = {
     new MiniCssExtractPlugin({
       // 定义输出文件名和目录
       filename: "css/[name].css",
+      chunkFilename: "css/[name].chunk.css",
     }),
     // 友好提示错误信息
     new FriendlyErrorsWebpackPlugin({
       compilationSuccessInfo: {
         messages: [
-          `You application is running here http://localhost:${
-            isAdmin ? "3777" : "3888"
-          }`,
+          isProd
+            ? "Build Successfully!"
+            : `You application is running here http://localhost:${
+                isAdmin ? "3777" : "3888"
+              }`,
         ],
         notes: ["hhhhhhhhhhhhh"],
       },
@@ -172,8 +195,21 @@ module.exports = {
     minimizer: [
       // css压缩
       new CssMinimizerPlugin(),
-      // js压缩
-      // new TerserPlugin(),
+      // js压缩,当生产模式会默认开启TerserPlugin(多进程打包)
+      // 特别耗时的操作中使用
+      // new TerserPlugin({
+      //   parallel: threads, // 开启多进程
+      // }),
     ],
+    splitChunks: {
+      // include all types of chunks
+      chunks: "all",
+    },
+  },
+  performance: {
+    // 此选项根据单个资源体积(单位: bytes)，控制 webpack 何时生成性能提示
+    maxAssetSize: 30000000,
+    // 根据入口起点的最大体积，控制 webpack 何时生成性能提示
+    maxEntrypointSize: 30000000,
   },
 };

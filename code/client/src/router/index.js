@@ -30,6 +30,17 @@ export const routes = [
       },
     ],
   },
+  {
+    path: "/abc",
+    component: Layout,
+    children: [
+      {
+        path: "",
+        name: "abc",
+        component: () => import("@/views/recommend/index.vue"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

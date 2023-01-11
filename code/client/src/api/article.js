@@ -1,8 +1,8 @@
 import request from "@/utils/request.js";
 
-export function getArticleList() {
+export function getArticleList(keyword) {
   return request({
-    url: "/article/list",
+    url: `/article/list${keyword ? "?keyword=" + keyword : ""}`,
   });
 }
 

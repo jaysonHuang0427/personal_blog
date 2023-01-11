@@ -8,10 +8,15 @@
       <div class="top">
         <div class="blog_name">jayson_blog</div>
         <ul class="nav">
-          <li @click="$route.path === '/home' ? '' : $router.push('/home')">
+          <li :class="{ active: $route.path === '/home' }" @click="toHome">
             主页
           </li>
-          <li>友链</li>
+          <li
+            :class="{ active: $route.path === '/abc' }"
+            @click="$router.push('/abc')"
+          >
+            友链
+          </li>
           <li>关于我</li>
         </ul>
       </div>
@@ -28,8 +33,30 @@
               class="iconfont icon-wechat"
               @click="dialogVisible = true"
             ></span>
-            <span class="iconfont icon-github"></span>
-            <span class="el-icon-message"></span>
+            <span class="iconfont icon-github" @click="toGithub"></span>
+            <el-popover
+              placement="bottom"
+              width="250"
+              trigger="hover"
+              content="hzr15220152020@163.com"
+            >
+              <span slot="reference" class="el-icon-message"></span>
+            </el-popover>
+          </div>
+        </div>
+        <div class="siteInfo">
+          <h1>网站信息</h1>
+          <div class="item">
+            <p>文章数目：</p>
+            <p>{{ articleList.length }}篇</p>
+          </div>
+          <div class="item">
+            <p>运行时间：</p>
+            <p>天</p>
+          </div>
+          <div class="item">
+            <p>上次更新：</p>
+            <p>{{ new Date().toLocaleString() }}</p>
           </div>
         </div>
       </div>
@@ -37,6 +64,7 @@
         <router-view></router-view>
       </div>
       <div class="right">
+        <Search></Search>
         <div class="labelGroup">
           <h1>热门标签</h1>
           <el-tag
@@ -51,11 +79,17 @@
           <h1>热门文章</h1>
           <div
             class="item"
-            v-for="item in hotList"
+            v-for="(item, index) in hotList"
             :key="item.article_title"
             @click="toDetail(item.article_id)"
           >
-            {{ item.article_title }}
+            <p>{{ item.article_title }}</p>
+            <p>
+              <span
+                :class="index === 0 ? 'el-icon-medal-1' : 'el-icon-medal'"
+              ></span
+              >{{ item.readingCount }}
+            </p>
           </div>
         </div>
       </div>
@@ -64,7 +98,7 @@
 </template>
 
 <script>
-import { getArticleByLabel } from "@/api/article.js";
+import { getArticleByLabel, getArticleList } from "@/api/article.js";
 
 export default {
   data() {
@@ -86,8 +120,9 @@ export default {
   async created() {
     if (!localStorage.getItem("accessToken")) {
       await this.$store.dispatch("loginHandler");
+    } else if (this.$route.path === "/home") {
+      await this.$store.dispatch("getList");
     }
-    await this.$store.dispatch("getList");
   },
   methods: {
     async tagClick(id) {
@@ -98,6 +133,16 @@ export default {
     },
     toDetail(id) {
       this.$router.push(`/article?id=${id}`);
+    },
+    async toHome() {
+      this.$route.path === "/home" ? "" : this.$router.push("/home");
+      const res = await getArticleList();
+      if (res && res.code === 200) {
+        this.$store.commit("setArticleList", res.data);
+      }
+    },
+    toGithub() {
+      window.open("https://github.com/jaysonHuang0427");
     },
   },
 };
@@ -129,6 +174,9 @@ export default {
         display: flex;
         justify-content: space-around;
         align-items: center;
+        .active {
+          color: #05814e;
+        }
         li {
           cursor: pointer;
           &:hover {
@@ -143,6 +191,9 @@ export default {
     justify-content: space-around;
     margin-top: 5vh;
     .left {
+      position: fixed;
+      top: 90px;
+      left: 150px;
       width: 400px;
       .my_info {
         display: flex;
@@ -178,11 +229,30 @@ export default {
           }
         }
       }
+      .siteInfo {
+        padding: 0 10px;
+        margin-top: 30px;
+        width: 100%;
+        height: 180px;
+        box-shadow: 5px 5px 71px 30px #d8d8d8;
+        h1 {
+          margin-bottom: 20px;
+        }
+        .item {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          font-size: 18px;
+        }
+      }
     }
     .view {
       width: 800px;
     }
     .right {
+      position: fixed;
+      top: 90px;
+      right: 150px;
       width: 400px;
       .el-tag {
         cursor: pointer;
@@ -200,7 +270,9 @@ export default {
           margin-bottom: 10px;
         }
         .item {
-          margin-bottom: 3px;
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 5px;
           font-size: 20px;
           cursor: pointer;
           &:hover {

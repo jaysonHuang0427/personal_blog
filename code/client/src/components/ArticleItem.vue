@@ -54,6 +54,10 @@ export default {
   border-radius: 25px;
   box-shadow: 8px 11px 89px 25px #d8d8d8;
   margin-bottom: 50px;
+  transition: all 0.3s;
+  &:hover {
+    box-shadow: 8px 11px 70px 40px #d8d8d8;
+  }
   .info {
     float: right;
     width: 400px;
