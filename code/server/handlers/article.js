@@ -9,6 +9,8 @@ const {
   delLabel,
   insertLabel,
   updateLabel,
+  getHotArticleList,
+  getArticleListBykeyword,
 } = require("../database/article.js");
 
 module.exports.addArticleHandler = (req, res) => {
@@ -17,15 +19,22 @@ module.exports.addArticleHandler = (req, res) => {
   if (req.body) {
     const articleInfo = req.body;
     if (req.file) {
-      // 异步重写
-      fs.rename(
-        req.file.path,
-        req.file.destination + req.file.originalname,
-        (err) => {
+      getArticleList((result) => {
+        const article_id = result[result.length - 1].article_id + 1;
+        const imgNameArr = req.file.originalname.split(".");
+        const fileNewName =
+          Date.now() +
+          "." +
+          article_id +
+          "." +
+          imgNameArr[imgNameArr.length - 1];
+        // 异步重写
+        fs.rename(req.file.path, req.file.destination + fileNewName, (err) => {
           if (err) throw err;
           console.log("Rename complete!");
-          const fileNewPath = req.file.destination + req.file.originalname;
-          Object.assign(articleInfo, { article_cover: fileNewPath });
+          Object.assign(articleInfo, {
+            article_cover: "http://localhost:3000/" + fileNewName,
+          });
           console.log("changeArticleInfo", articleInfo);
           insertArticle(
             articleInfo,
@@ -49,8 +58,8 @@ module.exports.addArticleHandler = (req, res) => {
               });
             }
           );
-        }
-      );
+        });
+      });
     }
   } else {
     res.status(400).send({
@@ -61,20 +70,50 @@ module.exports.addArticleHandler = (req, res) => {
 };
 
 module.exports.getArticleListHandler = (req, res) => {
-  getArticleList(
-    (result) => {
-      res.send({
-        code: 200,
-        data: result,
-      });
-    },
-    (error) => {
-      res.status(500).send({
-        code: 500,
-        msg: error,
-      });
-    }
-  );
+  const keyword = req.query.keyword;
+  if (keyword) {
+    getArticleListBykeyword(
+      keyword,
+      (result) => {
+        if (result.length > 0) {
+          res.send({
+            code: 200,
+            data: result,
+          });
+        }
+      },
+      (error) => {
+        res.status(500).send({
+          code: 500,
+          msg: error,
+        });
+      }
+    );
+    return;
+  } else {
+    getArticleList(
+      (result) => {
+        if (result.length > 0) {
+          res.send({
+            code: 200,
+            data: result,
+          });
+        } else {
+          res.status(400).send({
+            code: 400,
+            msg: "查找失败",
+          });
+        }
+      },
+      (error) => {
+        res.status(500).send({
+          code: 500,
+          msg: error,
+        });
+      }
+    );
+    return;
+  }
 };
 
 module.exports.deleteArticleHandler = (req, res) => {
@@ -268,4 +307,56 @@ module.exports.updateLabelHandler = (req, res) => {
       msg: "信息不能为空",
     });
   }
+};
+
+module.exports.getarticleListByLabelHandler = (req, res) => {
+  const label_id = req.params.id;
+  getArticleList(
+    (result) => {
+      if (result.length > 0) {
+        const newList = result.filter((item) => {
+          return item.label_id.split(",").includes(label_id);
+        });
+        res.send({
+          code: 200,
+          data: newList,
+        });
+      } else {
+        res.status(400).send({
+          code: 400,
+          msg: "查找失败",
+        });
+      }
+    },
+    (error) => {
+      res.status(500).send({
+        code: 500,
+        msg: error,
+      });
+    }
+  );
+};
+
+module.exports.getHotArticleListHandler = (req, res) => {
+  getHotArticleList(
+    (result) => {
+      if (result.length > 0) {
+        res.send({
+          code: 200,
+          data: result,
+        });
+      } else {
+        res.status(400).send({
+          code: 400,
+          msg: "error",
+        });
+      }
+    },
+    (error) => {
+      res.status(500).send({
+        code: 500,
+        msg: error,
+      });
+    }
+  );
 };

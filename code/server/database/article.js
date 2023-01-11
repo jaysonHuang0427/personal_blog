@@ -15,7 +15,44 @@ module.exports.insertArticle = (articleInfo, successCallback, failCallback) => {
 
 module.exports.getArticleList = (successCallback, failCallback) => {
   knex(articleTable)
-    .select()
+    .select(
+      "article_id",
+      "author_name",
+      "article_title",
+      "article_subtitle",
+      "article_cover",
+      "label_id",
+      "publishTime"
+    )
+    .then((res) => {
+      successCallback(res);
+    })
+    .catch((err) => {
+      failCallback(err);
+    });
+};
+
+module.exports.getArticleListBykeyword = (
+  keyword,
+  successCallback,
+  failCallback
+) => {
+  knex(articleTable)
+    .select("article_id", "article_title", "article_subtitle")
+    .whereLike("article_title", `%${keyword}%`)
+    .then((res) => {
+      successCallback(res);
+    })
+    .catch((err) => {
+      failCallback(err);
+    });
+};
+
+module.exports.getHotArticleList = (successCallback, failCallback) => {
+  knex(articleTable)
+    .select("article_id", "article_title", "readingCount")
+    .orderBy("readingCount", "desc")
+    .limit(10)
     .then((res) => {
       successCallback(res);
     })
@@ -27,8 +64,14 @@ module.exports.getArticleList = (successCallback, failCallback) => {
 module.exports.getArticle = (id, successCallback, failCallback) => {
   knex(articleTable)
     .where("article_id", id)
+    .increment("readingCount", 1)
     .then((res) => {
-      successCallback(res);
+      if (res > 0) {
+        return knex(articleTable).where("article_id", id);
+      }
+    })
+    .then((rows) => {
+      successCallback(rows);
     })
     .catch((err) => {
       failCallback(err);

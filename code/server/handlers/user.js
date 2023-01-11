@@ -135,7 +135,7 @@ module.exports = {
               accountName,
             },
             "sui_bian",
-            { expiresIn: "1h" }
+            { expiresIn: "8h" }
           );
           res.send({
             code: 201,

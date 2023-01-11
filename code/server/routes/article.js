@@ -11,6 +11,8 @@ const {
   getLabelListHandler,
   insertLabelHandler,
   updateLabelHandler,
+  getarticleListByLabelHandler,
+  getHotArticleListHandler,
 } = require("../handlers/article");
 
 const articleRouter = express.Router();
@@ -37,6 +39,10 @@ articleRouter.post("/labelDel", delLabelHandler);
 articleRouter.post("/labelInsert", insertLabelHandler);
 // 更新标签
 articleRouter.post("/labelUpdate", updateLabelHandler);
+// 根据标签查找文章列表
+articleRouter.get("/listByLabel/:id", getarticleListByLabelHandler);
+// 根据阅读量查找文章列表
+articleRouter.get("/hotList", getHotArticleListHandler);
 
 // 测试上传图片
 articleRouter.post("/uploadImg", upload.single("cover"), (req, res) => {

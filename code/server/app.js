@@ -37,7 +37,7 @@ app.use((err, req, res, next) => {
   if (err.status === 401) {
     res.status(401).send({
       code: 401,
-      msg: "token异常",
+      msg: err.inner.message,
     });
   } else {
     res.status(err.status).send({
