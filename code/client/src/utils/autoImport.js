@@ -1,5 +1,5 @@
 export default {
-  install(Vue, options) {
+  install(Vue) {
     // 返回值req是一个函数
     const req = require.context("@/components", false, /\.vue$/);
     req.keys().forEach((item) => {

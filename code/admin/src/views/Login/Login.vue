@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: "loginVue",
+  name: "LoginVue",
   data: function () {
     return {
       form: {

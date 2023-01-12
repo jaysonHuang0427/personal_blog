@@ -1,9 +1,9 @@
 <template>
   <div class="layout">
-    <Dialog
-      :dialogVisible="dialogVisible"
+    <DialogComponent
+      :dialog-visible="dialogVisible"
       @update:dialogVisible="dialogVisible = $event"
-    ></Dialog>
+    ></DialogComponent>
     <header>
       <div class="top">
         <div class="blog_name">jayson_blog</div>
@@ -68,9 +68,9 @@
         <div class="labelGroup">
           <h1>热门标签</h1>
           <el-tag
-            effect="plain"
             v-for="item in labelList"
             :key="item.label_id"
+            effect="plain"
             @click="tagClick(item.label_id)"
             >{{ item.label_name }}</el-tag
           >
@@ -78,9 +78,9 @@
         <div class="articleHot">
           <h1>热门文章</h1>
           <div
-            class="item"
             v-for="(item, index) in hotList"
             :key="item.article_title"
+            class="item"
             @click="toDetail(item.article_id)"
           >
             <p>{{ item.article_title }}</p>

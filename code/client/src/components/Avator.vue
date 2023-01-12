@@ -13,7 +13,7 @@
         src="../assets/pexels-rahul-716398.jpg"
         class="avatar"
       />
-      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      <i v-else class="el-icon-plus avatar-uploader-icon" />
     </el-upload>
   </div>
 </template>

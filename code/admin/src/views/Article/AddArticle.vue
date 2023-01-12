@@ -25,11 +25,15 @@
         ></el-input>
       </el-form-item>
       <el-form-item prop="html" label="文章内容">
-        <Toolbar :editor="editor" :defaultConfig="toolbarConfig" :mode="mode" />
+        <Toolbar
+          :editor="editor"
+          :default-config="toolbarConfig"
+          :mode="mode"
+        />
         <Editor
-          style="height: 500px; overflow-y: hidden; border: 1px solid #ccc"
           v-model="form.html"
-          :defaultConfig="editorConfig"
+          style="height: 500px; overflow-y: hidden; border: 1px solid #ccc"
+          :default-config="editorConfig"
           :mode="mode"
           @onCreated="onCreated"
         />
@@ -76,6 +80,14 @@ export default Vue.extend({
       tags: [],
     };
   },
+  created() {
+    this.getTags();
+  },
+  beforeDestroy() {
+    const editor = this.editor;
+    if (editor == null) return;
+    editor.destroy(); // 组件销毁时，及时销毁编辑器
+  },
   methods: {
     onCreated(editor) {
       this.editor = Object.seal(editor); // 一定要用 Object.seal() ，否则会报错
@@ -117,14 +129,6 @@ export default Vue.extend({
       }
     },
     clickTag() {},
-  },
-  created() {
-    this.getTags();
-  },
-  beforeDestroy() {
-    const editor = this.editor;
-    if (editor == null) return;
-    editor.destroy(); // 组件销毁时，及时销毁编辑器
   },
 });
 </script>

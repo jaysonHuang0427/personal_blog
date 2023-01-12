@@ -6,9 +6,9 @@
 
 <script>
 export default {
-  name: 'App',
-  created () {}
-}
+  name: "App",
+  created() {},
+};
 </script>
 
 <style lang="less" scoped></style>

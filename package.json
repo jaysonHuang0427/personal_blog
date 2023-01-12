@@ -12,7 +12,10 @@
     "dev:client": "cross-env NODE_ENV=development APP_TYPE=client webpack serve --config ./build/webpack.dev.conf.js --open",
     "dev:server": "cross-env NODE_ENV=development nodemon ./code/server/app.js ",
     "build:admin": "cross-env NODE_ENV=production APP_TYPE=admin webpack --config ./build/build.js",
-    "build:client": "cross-env NODE_ENV=production APP_TYPE=client webpack --config ./build/build.js"
+    "build:client": "cross-env NODE_ENV=production APP_TYPE=client webpack --config ./build/build.js",
+    "lint:admin": "eslint --ext .js,.vue ./code/admin/src/",
+    "lint:client": "eslint --ext .js,.vue ./code/client/src/",
+    "lint:server": "eslint ./code/server/"
   },
   "dependencies": {
     "@wangeditor/editor": "^5.1.23",
@@ -33,6 +36,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
+    "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@babel/preset-env": "^7.20.2",
     "@vue/preload-webpack-plugin": "^2.0.0",
@@ -41,6 +45,11 @@
     "css-loader": "^6.7.2",
     "css-minimizer-webpack-plugin": "^4.2.2",
     "errorhandler": "^1.5.1",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.8.0",
+    "eslint-webpack-plugin": "^3.2.0",
     "file-loader": "^6.2.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-loader": "^4.2.0",
@@ -53,6 +62,7 @@
     "postcss": "^8.4.19",
     "postcss-loader": "^7.0.2",
     "postcss-preset-env": "^7.8.3",
+    "prettier": "2.8.2",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.3.6",
     "url-loader": "^4.1.1",

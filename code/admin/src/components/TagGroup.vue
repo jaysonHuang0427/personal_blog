@@ -19,9 +19,9 @@ export default {
       ],
     };
   },
+  created() {},
   methods: {
     getData() {},
   },
-  created() {},
 };
 </script>

@@ -1,11 +1,11 @@
 <template>
   <div class="abc">
-    <video src="" controls></video>
+    <video src="" controls />
     <div class="btnGroup">
-      <el-button type="primary" @click="startRecord">录制</el-button>
-      <el-button type="danger" @click="stopRecord">停止</el-button>
-      <el-button type="primary" @click="reset">重置</el-button>
-      <el-button type="primary" @click="download">下载</el-button>
+      <el-button type="primary" @click="startRecord"> 录制 </el-button>
+      <el-button type="danger" @click="stopRecord"> 停止 </el-button>
+      <el-button type="primary" @click="reset"> 重置 </el-button>
+      <el-button type="primary" @click="download"> 下载 </el-button>
     </div>
   </div>
 </template>

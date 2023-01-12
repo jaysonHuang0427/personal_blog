@@ -4,7 +4,6 @@
       v-model="input"
       prefix-icon="el-icon-search"
       placeholder="请输入文章标题"
-      @input="inputEvent"
     ></el-input>
     <el-button type="primary" @click="searchEvent">搜索</el-button>
   </div>
@@ -20,7 +19,6 @@ export default {
     };
   },
   methods: {
-    inputEvent(value) {},
     async searchEvent() {
       const res = await getArticleList(this.input);
       if (res && res.code === 200) {

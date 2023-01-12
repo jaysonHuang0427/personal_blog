@@ -6,12 +6,12 @@
         :key="item.article_id"
         :title="item.article_title"
         :subtitle="item.article_subtitle"
-        :imgUrl="item.article_cover"
+        :img-url="item.article_cover"
         :article_id="item.article_id"
-      ></ArticleItem>
+      />
     </div>
     <div v-if="!articleList.length">
-      <el-empty description="暂无结果"></el-empty>
+      <el-empty description="暂无结果" />
     </div>
   </div>
 </template>

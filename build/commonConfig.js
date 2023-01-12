@@ -1,10 +1,12 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
+const postcssPresetEnv = require("postcss-preset-env");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 // const TerserPlugin = require("terser-webpack-plugin");
 
 // nodejs核心模块
@@ -34,15 +36,14 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
+          // 只在生产环境下使用 CSS 提取，这将便于你在开发环境下进行热重载。
           !isProd ? { loader: "style-loader" } : MiniCssExtractPlugin.loader,
           "css-loader",
           {
             loader: "postcss-loader",
             options: {
               postcssOptions: {
-                plugins: [
-                  "postcss-preset-env", // 能解决大多数样式兼容性问题
-                ],
+                plugins: [postcssPresetEnv(/* pluginOptions */)], // 能解决大多数样式兼容性问题
               },
             },
           },
@@ -166,10 +167,6 @@ module.exports = {
         ],
         notes: ["hhhhhhhhhhhhh"],
       },
-      onErrors: function (severity, errors) {
-        // You can listen to errors transformed and prioritized by the plugin
-        // severity can be 'error' or 'warning'
-      },
       // should the console be cleared between each compilation?
       // default is true
       clearConsole: true,
@@ -183,6 +180,13 @@ module.exports = {
       rel: "preload", // preload兼容性更好
       // rel:'prefetch', // prefetch兼容性更差
       as: "script",
+    }),
+    new ESLintPlugin({
+      // 指定eslint指定检查文件的根目录
+      context: path.resolve(
+        __dirname,
+        isAdmin ? resolve("code/admin/src") : resolve("code/client/src")
+      ),
     }),
   ],
   resolve: {

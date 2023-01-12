@@ -6,7 +6,7 @@
       <el-table-column prop="label_name" label="标签名"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small"
+          <el-button type="text" size="small" @click="handleClick(scope.row)"
             >查看</el-button
           >
           <el-button type="text" size="small" @click="edit">编辑</el-button>
@@ -20,7 +20,7 @@
       </el-table-column>
     </el-table>
     <Add
-      :dialogFormVisible="dialogShow"
+      :dialog-form-visible="dialogShow"
       @changeDialogVisible="dialogShow = $event"
       @getData="getData"
     ></Add>
@@ -32,15 +32,18 @@ import Add from "./components/Add.vue";
 import { getLabelList, delLabel } from "@/api/article.js";
 
 export default {
+  components: { Add },
   data() {
     return {
       tableData: [],
       dialogShow: false,
     };
   },
-  components: { Add },
+  created() {
+    this.getData();
+  },
   methods: {
-    handleClick(row) {},
+    handleClick() {},
     addLabel() {
       this.dialogShow = true;
     },
@@ -76,9 +79,6 @@ export default {
         this.tableData = res.data;
       }
     },
-  },
-  created() {
-    this.getData();
   },
 };
 </script>

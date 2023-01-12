@@ -14,7 +14,7 @@
       <el-table-column prop="label_id" label="标签"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small"
+          <el-button type="text" size="small" @click="handleClick(scope.row)"
             >查看</el-button
           >
           <el-button type="text" size="small">编辑</el-button>
@@ -34,6 +34,14 @@
 import { getArticleList, delArticle } from "@/api/article.js";
 
 export default {
+  data() {
+    return {
+      tableData: [],
+    };
+  },
+  created() {
+    this.getData();
+  },
   methods: {
     handleClick(row) {
       this.$router.push(`/article/detail?id=${row.article_id}`);
@@ -67,15 +75,6 @@ export default {
           });
         });
     },
-  },
-
-  data() {
-    return {
-      tableData: [],
-    };
-  },
-  created() {
-    this.getData();
   },
 };
 </script>

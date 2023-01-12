@@ -7,10 +7,10 @@
     <div class="content" v-html="articleInfo.article_content"></div>
     <div class="labelList">
       <el-tag
-        effect="plain"
-        class="labelItem"
         v-for="item in labelList"
         :key="item"
+        effect="plain"
+        class="labelItem"
       >
         {{ item }}
       </el-tag>

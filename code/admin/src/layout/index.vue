@@ -7,13 +7,13 @@
       <el-menu
         :default-active="activeMenu"
         class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
         :collapse="isCollapse"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
         router
+        @open="handleOpen"
+        @close="handleClose"
       >
         <el-menu-item
           v-for="item in menuList"
@@ -50,6 +50,7 @@ export default {
       });
     },
   },
+  created() {},
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -58,7 +59,6 @@ export default {
       console.log(key, keyPath);
     },
   },
-  created() {},
 };
 </script>
 

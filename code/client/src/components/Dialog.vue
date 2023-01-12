@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "Dialog",
+  name: "DialogComponent",
   props: {
     dialogVisible: {
       type: Boolean,

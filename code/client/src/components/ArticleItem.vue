@@ -1,8 +1,12 @@
 <template>
   <div class="article_item">
     <div class="info">
-      <h1 class="title">{{ title }}</h1>
-      <h3 class="subtitle">{{ subtitle }}</h3>
+      <h1 class="title">
+        {{ title }}
+      </h1>
+      <h3 class="subtitle">
+        {{ subtitle }}
+      </h3>
       <button class="btn" @click="$router.push(`/article?id=${article_id}`)">
         了解更多
       </button>
@@ -16,6 +20,15 @@
 <script>
 export default {
   name: "ArticleItem",
+  directives: {
+    img: {
+      bind: function (el, binding) {
+        if (!binding.value) {
+          el.src = require("@/assets/defaultCover.jpg");
+        }
+      },
+    },
+  },
   props: {
     title: {
       type: String,
@@ -32,15 +45,6 @@ export default {
     article_id: {
       type: Number,
       default: 1,
-    },
-  },
-  directives: {
-    img: {
-      bind: function (el, binding) {
-        if (!binding.value) {
-          el.src = require("@/assets/defaultCover.jpg");
-        }
-      },
     },
   },
 };
