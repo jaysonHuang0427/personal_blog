@@ -187,6 +187,9 @@ module.exports = {
         __dirname,
         isAdmin ? resolve("code/admin/src") : resolve("code/client/src")
       ),
+      cache: true, // 开启缓存
+      // 缓存目录
+      cacheLocation: resolve("node_modules/.cache/.eslintcache"),
     }),
   ],
   resolve: {
