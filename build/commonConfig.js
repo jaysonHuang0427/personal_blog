@@ -3,13 +3,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+// const TerserPlugin = require("terser-webpack-plugin");
 
-// nodejs核心模块，直接使用
-const os = require("os");
+// nodejs核心模块
+// const os = require("os");
 // cpu核数
-const threads = os.cpus().length;
+// const threads = os.cpus().length;
 
 // 是否是生产环境
 const isProd = process.env.NODE_ENV === "production";
@@ -176,6 +177,12 @@ module.exports = {
       // add formatters and transformers (see below)
       additionalFormatters: [],
       additionalTransformers: [],
+    }),
+    // preload:告诉浏览器立刻加载当前页面的资源  prefetch：在浏览器空闲时加载即将用到的页面的资源，它们都会缓存资源
+    new PreloadWebpackPlugin({
+      rel: "preload", // preload兼容性更好
+      // rel:'prefetch', // prefetch兼容性更差
+      as: "script",
     }),
   ],
   resolve: {
