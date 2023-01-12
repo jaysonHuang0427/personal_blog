@@ -150,8 +150,8 @@ module.exports = {
     // 提取css成单独文件(以link的方式导入css)
     new MiniCssExtractPlugin({
       // 定义输出文件名和目录
-      filename: "css/[name].css",
-      chunkFilename: "css/[name].chunk.css",
+      filename: "css/[name].[contenthash:8].css",
+      chunkFilename: "css/[name].[contenthash:8].chunk.css",
     }),
     // 友好提示错误信息
     new FriendlyErrorsWebpackPlugin({
