@@ -8,8 +8,8 @@ module.exports = merge(commonConfig, {
   mode: "development",
   // 出口
   output: {
-    // 将 js 文件输出到 js/ 目录中
-    filename: "js/bundle.js",
+    // 入口js文件打包输出命名方式
+    filename: "js/[name]-[hash:8].js",
     path: undefined, // 开发模式没有输入，不需要指定输出目录
   },
   devServer: {
