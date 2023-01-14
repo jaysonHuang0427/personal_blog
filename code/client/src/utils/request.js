@@ -1,8 +1,8 @@
 import axios from "axios";
 import store from "../store";
-
+console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 const request = axios.create({
-  baseURL: "/api",
+  baseURL: process.env.NODE_ENV === "development" ? "/api" : "/blog-api",
   timeout: 5000,
 });
 

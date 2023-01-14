@@ -5,8 +5,9 @@ const postcssPresetEnv = require("postcss-preset-env");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
-const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const webpack = require("webpack");
+// const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 // const TerserPlugin = require("terser-webpack-plugin");
 
 // nodejs核心模块
@@ -176,11 +177,11 @@ module.exports = {
       additionalTransformers: [],
     }),
     // preload:告诉浏览器立刻加载当前页面的资源  prefetch：在浏览器空闲时加载即将用到的页面的资源，它们都会缓存资源
-    new PreloadWebpackPlugin({
-      rel: "preload", // preload兼容性更好
-      // rel:'prefetch', // prefetch兼容性更差
-      as: "script",
-    }),
+    // new PreloadWebpackPlugin({
+    //   rel: "preload", // preload兼容性更好
+    //   // rel:'prefetch', // prefetch兼容性更差
+    //   as: "script",
+    // }),
     new ESLintPlugin({
       // 指定eslint指定检查文件的根目录
       context: path.resolve(
@@ -190,6 +191,10 @@ module.exports = {
       cache: true, // 开启缓存
       // 缓存目录
       cacheLocation: resolve("node_modules/.cache/.eslintcache"),
+    }),
+    // 定义全局变量，用来处理我们开发环境和生产环境的不同
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
     }),
   ],
   resolve: {

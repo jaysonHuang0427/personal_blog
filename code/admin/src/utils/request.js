@@ -4,7 +4,7 @@ import router from "@/router/index.js";
 import { Message } from "element-ui";
 
 const request = axios.create({
-  baseURL: "/api",
+  baseURL: process.env.NODE_ENV === "development" ? "/api" : "/blog-api",
   timeout: 5000,
 });
 
