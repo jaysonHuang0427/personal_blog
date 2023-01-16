@@ -19,3 +19,11 @@ export function getUserInfo(id) {
     url: `/user/get/${id}`,
   });
 }
+
+export function register(data) {
+  return request({
+    url: "/user/register",
+    method: "post",
+    data,
+  });
+}

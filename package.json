@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:admin": "cross-env NODE_ENV=development APP_TYPE=admin webpack serve --config ./build/webpack.dev.conf.js --open",
     "dev:client": "cross-env NODE_ENV=development APP_TYPE=client webpack serve --config ./build/webpack.dev.conf.js --open",
-    "dev:server": "cross-env NODE_ENV=development nodemon ./code/server/app.js ",
+    "start": "cross-env NODE_ENV=development nodemon ./code/server/app.js ",
     "build:admin": "cross-env NODE_ENV=production APP_TYPE=admin webpack --config ./build/build.js",
     "build:client": "cross-env NODE_ENV=production APP_TYPE=client webpack --config ./build/build.js",
     "lint:admin": "eslint --ext .js,.vue ./code/admin/src/",

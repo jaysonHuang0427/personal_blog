@@ -16,44 +16,53 @@
         </div>
         <div class="divider">
           <span class="line"></span>
-          <span class="divider-text">其他方式登录</span>
+          <el-link
+            class="divider-text"
+            type="primary"
+            :underline="false"
+            @click="toRegister"
+            >注册账号</el-link
+          >
           <span class="line"></span>
-        </div>
-        <div class="other-login-wrapper">
-          <div class="other-login-item">
-            <img src="@/assets/QQ.png" alt="" />
-          </div>
-          <div class="other-login-item">
-            <img src="@/assets/WeChat.png" alt="" />
-          </div>
         </div>
       </div>
     </div>
+    <Register
+      :dialog-visible="showRegister"
+      @changeDialogVisible="showRegister = $event"
+    ></Register>
   </div>
 </template>
 
 <script>
+import Register from "@/components/Register.vue";
+import md5 from "md5";
+
 export default {
   name: "LoginVue",
+  components: { Register },
   data: function () {
     return {
       form: {
-        accountName: "test",
-        password: "123456",
+        accountName: "qqq",
+        password: "qqq",
       },
+      showRegister: false,
     };
   },
-  computed: {},
   methods: {
     async loginEvent() {
       const fd = new FormData();
       fd.set("accountName", this.form.accountName);
-      fd.set("password", this.form.password);
+      fd.set("password", md5(this.form.password));
       await this.$store.dispatch("loginHandler", fd);
       this.form = {
         accountName: "",
         password: "",
       };
+    },
+    toRegister() {
+      this.showRegister = true;
     },
   },
 };
@@ -126,18 +135,6 @@ export default {
           display: inline-block;
           width: 100px;
         }
-      }
-      .other-login-wrapper {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .other-login-item {
-        border: 1px solid rgb(214, 222, 228);
-        padding: 10px;
-        margin: 10px;
-        cursor: pointer;
       }
     }
   }
