@@ -1,6 +1,10 @@
 # 个人博客
 
-## 技术栈：vue2+express+mysql+nginx
+## 技术栈：前端:vue2+webpack5; 后端:express+mysql+nginx
+
+1. 博客线上地址：域名还在备案(ip 地址为：http://120.79.163.152/)
+2. linux 常用命令：[https://mp.weixin.qq.com/s?\_\_biz=MzI3MjY1ODI2Ng==&mid=2247485996&idx=1&sn=0a08bf2f04eed49542a96cee6928a561&chksm=eb2e7019dc59f90f55b0aaabf7a59a16a4e06bf941beda82e2e61e807da3ca8d4c2e247173ad&scene=27](https://mp.weixin.qq.com/s?__biz=MzI3MjY1ODI2Ng==&mid=2247485996&idx=1&sn=0a08bf2f04eed49542a96cee6928a561&chksm=eb2e7019dc59f90f55b0aaabf7a59a16a4e06bf941beda82e2e61e807da3ca8d4c2e247173ad&scene=27)
+3. PM2 介绍：[https://www.jianshu.com/p/bab31fac7655](https://www.jianshu.com/p/bab31fac7655)
 
 ### 一、购买阿里云服务器(ECS) centos7.9
 
