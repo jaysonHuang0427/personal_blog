@@ -118,8 +118,10 @@ export default {
     },
   },
   async created() {
+    console.log("---", !localStorage.getItem("accessToken"));
     if (!localStorage.getItem("accessToken")) {
       await this.$store.dispatch("loginHandler");
+      await this.$store.dispatch("getList");
     } else if (this.$route.path === "/home") {
       await this.$store.dispatch("getList");
     }
